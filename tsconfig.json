@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        //javaScript 라이브러리를 사용할수 있게 한다.(stove-cafe library)
+        "allowJs": true
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

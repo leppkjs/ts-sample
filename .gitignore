@@ -1,0 +1,12 @@
+.git
+.idea/*
+.temp/
+.tmp/
+.DS_Store
+dist
+node_modules
+debug.log
+yarn.lock
+*lock.json
+*.log
+*.iml
