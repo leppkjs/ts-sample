@@ -1,4 +1,13 @@
-abstract class AbstractComponent {
+import IComponent from "./IComponent";
+
+/**
+ * 컴포넌트의 추상클래스이다.
+ */
+abstract class AbstractComponent implements IComponent {
+    /**
+     * 컴포넌트 명칭
+     */
+    name: string;
     /**
      * 렌더링 대상 셀렉터
      */
@@ -22,6 +31,18 @@ abstract class AbstractComponent {
      * 서비스 목록
      */
     services: Array<any> = [];
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    /**
+     *
+     * @returns {string}
+     */
+    getName(): string {
+        return this.name;
+    }
 
     /**
      * 랜더링 이후 컴포넌트가 초기화 시킨다.

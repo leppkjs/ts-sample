@@ -2,6 +2,7 @@ import IServiceFactory from './IServiceFactory';
 import {Router} from './router/Router';
 import IAppModule from "./IAppModule";
 import IConfig from "./IConfig";
+import IService from "./IService";
 
 /**
  * 어플리케이션 컨텍스트이다.
@@ -16,12 +17,12 @@ class ApplicationContext implements IServiceFactory<any> {
     /**
      * 어플리케이션 모듈 목록
      */
-    private appModules: Map<string, IAppModule> = {};
+    private appModules: Map<string, IAppModule> = new Map<string, IAppModule>();
 
     /**
      * 서비스 목록
      */
-    private services: Map<string, any> = {};
+    private services: Map<string, IService> = new Map<string, IService>();
 
     /**
      * 라우터
@@ -41,11 +42,19 @@ class ApplicationContext implements IServiceFactory<any> {
     }
 
     public setModules(modules: Map<string, IAppModule>): void {
-        //this.appModules.(...modules);
+        this.appModules = modules;
     }
 
-    public setService(services: Map<string, any>): void {
-        //this.services.set(...services);
+    public getModule(name: string): IAppModule {
+        return this.appModules.get(name);
+    }
+
+    public setService(services: Map<string, IService>): void {
+        this.services = services;
+    }
+
+    public getService(name: string): IService {
+        return this.services.get(name);
     }
 
     public setRouter(router: Router): void {

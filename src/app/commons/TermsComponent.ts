@@ -43,8 +43,8 @@ class TermsComponent extends AbstractComponent {
                             </div>
                         </div>`;
 
-    constructor() {
-        super();
+    constructor(name: string) {
+        super(name);
         console.log("load TermsComponent...");
     }
 

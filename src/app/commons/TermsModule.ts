@@ -1,31 +1,31 @@
-import IAppModule from '../core/IAppModule';
-import AbstractComponent from '../core/AbstractComponent';
+import IService from "../core/IService";
+import AbstractModule from "../core/AbstractModule";
+import IComponent from "../core/IComponent";
 
 /**
  * Terms Application Module Implements
  */
-class TermsModule implements IAppModule {
-    /**
-     * 이용약관 컴포넌트
-     */
-    private components: Array<AbstractComponent> = [];
-
-    private bootstrapComponents: AbstractComponent;
-
+class TermsModule extends AbstractModule {
     /**
      * 기본 생성자이다.
      *
+     * @param {string} name 컴포넌트명칭
+     * @param {Array<IComponent>} components 컴포넌트목록
+     * @param {Array<IService>} services 서비스목록
      */
-    constructor(component: AbstractComponent) {
+    constructor(name:string, components: Array<IComponent>, services: Array<IService>) {
+        super(name, components, services);
         console.log("load TermsModule");
-        this.bootstrapComponents = component;
     }
 
     /**
      * 부트스트랩 컴포넌트를 적재한다.
      */
-    public load(): void {
-        this.bootstrapComponents.rendering(this.renderer);
+    public load(bootstrapComponent: string): void {
+        if(!this.components.has(bootstrapComponent)) {
+            throw new Error(`not exist ${bootstrapComponent} Component`);
+        }
+        this.components.get(bootstrapComponent).rendering(this.renderer);
     }
 
     /**
@@ -34,6 +34,7 @@ class TermsModule implements IAppModule {
      * @param {string} template
      */
     private renderer(selector: string, template: string): void {
+        //TODO template urls 를 받아서         const unit = await import("./dddddd");
         document.querySelector(selector).innerHTML = template;
     }
 

@@ -11,11 +11,6 @@ import {applicationContext} from './ApplicationContext';
  */
 class AppManager {
     /**
-     * 부트스트랩 모듈
-     */
-    private bootModule: IAppModule;
-
-    /**
      * 기본 생성자
      *
      * @param {IConfig} config 환경정보
@@ -25,7 +20,6 @@ class AppManager {
      */
     constructor(build: AppBuilder) {
         console.log("load AppManager");
-        this.bootModule = build.bootModule;
         this.initializeContext(build);
         this.initializeRouter(applicationContext.getRouter());
     }
@@ -34,7 +28,6 @@ class AppManager {
         applicationContext.initialize();
         applicationContext.setConfig(build.config);
         applicationContext.setModules(build.appModules);
-        applicationContext.setService(build.services);
         applicationContext.setRouter(new Router('/', '/'));
     }
 
@@ -47,7 +40,7 @@ class AppManager {
         }));
         router.registerRoute(new Route("/service/{service-id}/type/{type}/version/:version:", (values: IRouteValues): void => {
             console.log("service id: " + values["service-id"]);
-            applicationContext.getComponent("");
+            // applicationContext.getComponent("");
 
         }));
         router.registerRoute(new Route("/email/{addr}/settings/:id:", (values: IRouteValues): void => {
@@ -62,10 +55,14 @@ class AppManager {
 
     /**
      * 어플리케이션을 부트스트랩 한다.
+     *
+     * @param {string} bootModuleName
+     * @param {string} bootComponentName
      */
-    public bootstrap(): void {
+    public bootstrap(bootModuleName: string, bootComponentName: string): void {
+        bootModuleName.split("")
         document.addEventListener("DOMContentLoaded", (e) => {
-            this.bootModule.load();
+            //applicationContext.getModule(name).load();
             console.log("interceptor router....");
             applicationContext.getRouter().navigateTo("/");
         });
@@ -83,54 +80,32 @@ class AppBuilder {
     public config: IConfig;
 
     /**
-     * 부트스트랩 모듈
-     */
-    public bootModule: IAppModule;
-
-    /**
      * 어플리케이션 모듈
      */
-    public appModules: Array<IAppModule> = [];
-
-    /**
-     * 서비스 목록
-     */
-    public services: Array<any> = [];
+    public appModules: Map<string, IAppModule> = new Map<string, IAppModule>();
 
     /**
      * 기본 생성자
      *
      * @param {IConfig} config 환경정보
-     * @param {IAppModule} appBootModule 어플리케이션 부트스트랩 모듈
      */
-    constructor(config: IConfig, appBootModule: IAppModule) {
+    constructor(config: IConfig) {
         this.config = config;
-        this.bootModule = appBootModule;
-        this.appModules.push(this.bootModule);
     }
 
     /**
      * 모듈 목록을 설정한다.
      *
-     * @param {IAppModule} modules
+     * @param {Array<IAppModule>} modules
      * @returns {AppBuilder}
      */
-    public setModules(modules: Array<IAppModule>): AppBuilder {
-        this.appModules.push(...modules);
+    public setModules(...modules: Array<IAppModule>): AppBuilder {
+        for(const module of modules) {
+            this.appModules.set(module.getName(), module);
+        }
+
         return this;
     }
-
-    /**
-     * 서비스 목록을 설정한다.
-     *
-     * @param services
-     * @returns {AppManagerBuilder}
-     */
-    public setProviders(services: Array<any>): AppBuilder {
-        this.services.push(...services);
-        return this;
-    }
-
 
     /**
      * 어플리케이션 관리자를 생성하여 반환한다.
