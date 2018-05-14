@@ -20,7 +20,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
     /**
      * 기본 모듈 명칭
      */
-    private defaultModuleName: string;
+    private baseModuleName: string;
 
     /**
      * 어플리케이션 모듈 목록
@@ -41,7 +41,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized by only AppManager");
         }
-        this.appModules.get(this.defaultModuleName).load(componentName);
+        this.appModules.get(this.baseModuleName).load(componentName);
     }
 
     /**
@@ -84,12 +84,12 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      *
      * @param {string} moduleName
      */
-    public setDefaultModuleName(manager: AppManager, moduleName: string) {
+    public setBaseModuleName(manager: AppManager, moduleName: string) {
         if(!(manager instanceof AppManager)) {
-            throw new Error("It is only initialized defaultModuleName by only AppManager");
+            throw new Error("It is only initialized baseModuleName by only AppManager");
         }
 
-       this.defaultModuleName = moduleName;
+       this.baseModuleName = moduleName;
     }
 
     /**
@@ -121,7 +121,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @param {string} moduleName
      */
     registerComponent(component: IComponent, moduleName?: string): void {
-        this.appModules.get(moduleName || this.defaultModuleName).addComponent(component);
+        this.appModules.get(moduleName || this.baseModuleName).addComponent(component);
     }
 
     /**
@@ -132,7 +132,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @returns {IComponent}
      */
     provideComponent(componentName: string, moduleName?: string): IComponent {
-        return this.appModules.get(moduleName || this.defaultModuleName).getComponent(componentName);
+        return this.appModules.get(moduleName || this.baseModuleName).getComponent(componentName);
     }
 
 
@@ -143,7 +143,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @param {string} moduleName
      */
     registerService(servie: IService, moduleName?: string): void {
-        this.appModules.get(moduleName || this.defaultModuleName).addSerivce(servie);
+        this.appModules.get(moduleName || this.baseModuleName).addSerivce(servie);
     }
 
     /**
@@ -154,7 +154,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @returns {IService}
      */
     provideService(serviceName: string, moduleName?: string): IService {
-        return this.appModules.get(moduleName || this.defaultModuleName).getService(serviceName);
+        return this.appModules.get(moduleName || this.baseModuleName).getService(serviceName);
     }
 }
 

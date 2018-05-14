@@ -15,12 +15,12 @@ class AppManager {
      *
      * @param {IConfig} config
      * @param {Map<string, IAppModule>} modules
-     * @param {string} defaultMouleName
+     * @param {string} baseMouleName
      */
-    constructor(config: IConfig, modules: Map<string, IAppModule>, defaultMouleName: string) {
+    constructor(config: IConfig, modules: Map<string, IAppModule>, baseMouleName: string) {
         console.log("load AppManager");
 
-        this.initializeContext(config, modules, defaultMouleName);
+        this.initializeContext(config, modules, baseMouleName);
         this.initializeRouter(applicationContext.getRouter());
     }
 
@@ -29,12 +29,12 @@ class AppManager {
      *
      * @param {IConfig} config
      * @param {Map<string, IAppModule>} modules
-     * @param {string} defaultMouleName
+     * @param {string} baseMouleName
      */
-    private initializeContext(config: IConfig, modules: Map<string, IAppModule>, defaultMouleName: string): void {
+    private initializeContext(config: IConfig, modules: Map<string, IAppModule>, baseMouleName: string): void {
         applicationContext.setConfig(this, config);
         applicationContext.setModules(this, modules);
-        applicationContext.setDefaultModuleName(this, defaultMouleName);
+        applicationContext.setBaseModuleName(this, baseMouleName);
         applicationContext.setRouter(this, new Router('/', '/'));
     }
 
@@ -93,7 +93,7 @@ class AppBuilder {
     /**
      * 기본 모듈 명칭
      */
-    private defaultModuleName: string;
+    private baseModuleName: string;
 
     /**
      * 기본 생성자
@@ -132,14 +132,14 @@ class AppBuilder {
     /**
      * 기본모듈을 설정한다.
      *
-     * @param {string} defaultModuleName
+     * @param {string} baseModuleName
      * @returns {AppBuilder}
      */
-    public setDefaultModuleName(defaultModuleName: string): AppBuilder {
-        if(!Array.from(this.appModules.keys()).find((value, index) => value === defaultModuleName)) {
-            throw new Error(`Unregistered name ${defaultModuleName}. Please register first.`);
+    public setBaseModuleName(baseModuleName: string): AppBuilder {
+        if(!Array.from(this.appModules.keys()).find((value, index) => value === baseModuleName)) {
+            throw new Error(`Unregistered name ${baseModuleName}. Please register first.`);
         }
-        this.defaultModuleName = defaultModuleName;
+        this.baseModuleName = baseModuleName;
         return this;
     }
 
@@ -153,7 +153,7 @@ class AppBuilder {
             throw new Error("register more than one Module");
         }
 
-        return new AppManager(this.config, this.appModules, this.defaultModuleName || Array.from(this.appModules.keys())[0]);
+        return new AppManager(this.config, this.appModules, this.baseModuleName || Array.from(this.appModules.keys())[0]);
     }
 
 }
