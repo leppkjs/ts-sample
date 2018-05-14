@@ -1,4 +1,4 @@
-import IAppModule from './IAppModule';
+import IAppModule from './module/IAppModule';
 import IConfig from '../core/IConfig';
 import {Router} from './router/Router';
 import {Route} from './router/Route';

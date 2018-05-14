@@ -1,6 +1,6 @@
-import IService from "../core/IService";
-import AbstractModule from "../core/AbstractModule";
-import IComponent from "../core/IComponent";
+import IService from "../core/service/IService";
+import AbstractModule from "../core/module/AbstractModule";
+import IComponent from "../core/component/IComponent";
 
 /**
  * Terms Application Module Implements

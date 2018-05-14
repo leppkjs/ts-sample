@@ -5,10 +5,10 @@ import './assets/css/terms.css';
 import * as data from './config/config.json';
 
 import {AppBuilder} from './app/core/AppManager';
-import TermsModule from './app/commons/TermsModule';
+import TermsModule from './app/term/TermsModule';
 import TermsConfig from './app/commons/TermsConfig';
-import TService from "./app/commons/TService";
-import TermsComponent from "./app/commons/TermsComponent";
+import TService from "./app/term/services/TService";
+import TermsComponent from "./app/term/TermsComponent";
 
 //Application Build
 new AppBuilder(new TermsConfig(data))

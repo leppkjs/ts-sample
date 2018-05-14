@@ -1,10 +1,10 @@
 import IServiceFactory from './IServiceFactory';
 import {Router} from './router/Router';
-import IAppModule from "./IAppModule";
+import IAppModule from "./module/IAppModule";
 import IConfig from "./IConfig";
-import IService from "./IService";
+import IService from "./service/IService";
 import {AppManager} from "./AppManager";
-import IComponent from "./IComponent";
+import IComponent from "./component/IComponent";
 
 /**
  * 어플리케이션 컨텍스트이다.

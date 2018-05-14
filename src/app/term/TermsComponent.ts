@@ -1,5 +1,5 @@
-import {TermsHeader} from "./TermsHeader";
-import AbstractComponent from "../core/AbstractComponent";
+import {TermsHeader} from "../commons/TermsHeader";
+import AbstractComponent from "../core/component/AbstractComponent";
 import {applicationContext} from '../core/ApplicationContext';
 
 class TermsComponent extends AbstractComponent {

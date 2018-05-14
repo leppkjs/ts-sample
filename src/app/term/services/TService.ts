@@ -1,4 +1,4 @@
-import AbstractService from "../core/AbstractService";
+import AbstractService from "../../core/service/AbstractService";
 
 class TService extends AbstractService{
     constructor(name: string) {

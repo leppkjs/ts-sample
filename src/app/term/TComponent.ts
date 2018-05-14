@@ -1,4 +1,4 @@
-import AbstractComponent from "../core/AbstractComponent";
+import AbstractComponent from "../core/component/AbstractComponent";
 
 class TComponent extends AbstractComponent {
     constructor(name: string) {

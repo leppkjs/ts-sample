@@ -1,5 +1,5 @@
-import IService from "./IService";
-import IComponent from "./IComponent";
+import IService from "../service/IService";
+import IComponent from "../component/IComponent";
 
 /**
  * Application Module Interface

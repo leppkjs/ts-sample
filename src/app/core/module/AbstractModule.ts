@@ -1,6 +1,6 @@
 import IAppModule from "./IAppModule";
-import IService from "./IService";
-import IComponent from "./IComponent";
+import IService from "../service/IService";
+import IComponent from "../component/IComponent";
 
 /**
  * 모듈의 추상클래스이다.
