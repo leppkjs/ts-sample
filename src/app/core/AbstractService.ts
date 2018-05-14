@@ -7,7 +7,7 @@ abstract class AbstractService implements IService {
     /**
      * 서비스명칭
      */
-    name: string;
+    private readonly name: string;
 
     /**
      * 기본 생성자이다.

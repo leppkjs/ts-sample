@@ -9,7 +9,7 @@ abstract class AbstractModule implements IAppModule {
     /**
      * 모듈명칭
      */
-    protected name: string;
+    protected readonly name: string;
     /**
      * 컴포넌트 목록
      * @type {Map<string, IComponent>}
@@ -54,6 +54,16 @@ abstract class AbstractModule implements IAppModule {
     }
 
     /**
+     * 컴포넌트를 반환한다.
+     *
+     * @param {string} name
+     * @returns {IComponent}
+     */
+    public getComponent(name: string): IComponent {
+        return this.components.get(name);
+    }
+
+    /**
      * 서비스를 등록한다.
      *
      * @param {IService} service 서비스
@@ -64,14 +74,23 @@ abstract class AbstractModule implements IAppModule {
     }
 
     /**
+     * 서비스를 반환한다.
+     *
+     * @param {string} name
+     * @returns {IService}
+     */
+    public getService(name: string): IService {
+        return this.services.get(name);
+    }
+
+    /**
      * 컴포넌트 목록을 등록한다.
      *
      * @param {Array<IComponent>} components
      */
     private setComponents(components: Array<IComponent>): void {
         for(const component of components) {
-            //TODO proxy 처리 할것.
-            this.components.set(component.getName(), component);
+            this.addComponent(component);
         }
     }
 
@@ -82,8 +101,7 @@ abstract class AbstractModule implements IAppModule {
      */
     private setServices(services: Array<IService>): void {
         for(const service of services) {
-            //TODO proxy 처리 할것.
-            this.services.set(service.getName(), service);
+            this.addSerivce(service);
         }
     }
 

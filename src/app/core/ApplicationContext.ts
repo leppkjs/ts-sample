@@ -3,16 +3,24 @@ import {Router} from './router/Router';
 import IAppModule from "./IAppModule";
 import IConfig from "./IConfig";
 import IService from "./IService";
+import {AppManager} from "./AppManager";
+import IComponent from "./IComponent";
 
 /**
  * 어플리케이션 컨텍스트이다.
  * 어플리케이션 생명주기를 관리한다.
  */
-class ApplicationContext implements IServiceFactory<any> {
+class ApplicationContext implements IServiceFactory<IComponent, IService> {
+
     /**
      * 환경정보
      */
     private config: IConfig;
+
+    /**
+     * 기본 모듈 명칭
+     */
+    private defaultModuleName: string;
 
     /**
      * 어플리케이션 모듈 목록
@@ -20,60 +28,134 @@ class ApplicationContext implements IServiceFactory<any> {
     private appModules: Map<string, IAppModule> = new Map<string, IAppModule>();
 
     /**
-     * 서비스 목록
-     */
-    private services: Map<string, IService> = new Map<string, IService>();
-
-    /**
      * 라우터
      */
     private router: Router;
 
-    constructor() {}
+    /**
+     * 어플리케이션 적재한다.
+     *
+     * @param {AppManager} manager
+     */
+    public load(manager: AppManager, componentName: string) {
+        if(!(manager instanceof AppManager)) {
+            throw new Error("It is only initialized by only AppManager");
+        }
+        this.appModules.get(this.defaultModuleName).load(componentName);
+    }
 
-    initialize() {}
-
-    public setConfig(config: IConfig): void {
+    /**
+     * 환경정보를 등록한다.
+     *
+     * @param {AppManager} manager
+     * @param {IConfig} config
+     */
+    public setConfig(manager: AppManager, config: IConfig): void {
+        if(!(manager instanceof AppManager)) {
+            throw new Error("It is only initialized config by only AppManager");
+        }
         this.config = config;
     }
 
+    /**
+     * 환경정보를 반환한다.
+     *
+     * @returns {IConfig}
+     */
     public getConfig(): IConfig {
         return this.config;
     }
 
-    public setModules(modules: Map<string, IAppModule>): void {
+    /**
+     * 모듈 목록을 등록한다.
+     *
+     * @param {AppManager} manager
+     * @param {Map<string, IAppModule>} modules
+     */
+    public setModules(manager: AppManager, modules: Map<string, IAppModule>): void {
+        if(!(manager instanceof AppManager)) {
+            throw new Error("It is only initialized Modules by only AppManager");
+        }
         this.appModules = modules;
     }
 
-    public getModule(name: string): IAppModule {
-        return this.appModules.get(name);
+    /**
+     * 기본모듈명을 설정한다.
+     *
+     * @param {string} moduleName
+     */
+    public setDefaultModuleName(manager: AppManager, moduleName: string) {
+        if(!(manager instanceof AppManager)) {
+            throw new Error("It is only initialized defaultModuleName by only AppManager");
+        }
+
+       this.defaultModuleName = moduleName;
     }
 
-    public setService(services: Map<string, IService>): void {
-        this.services = services;
-    }
-
-    public getService(name: string): IService {
-        return this.services.get(name);
-    }
-
-    public setRouter(router: Router): void {
+    /**
+     * 라우터를 등록한다.
+     *
+     * @param {AppManager} manager
+     * @param {Router} router
+     */
+    public setRouter(manager: AppManager, router: Router): void {
+        if(!(manager instanceof AppManager)) {
+            throw new Error("It is only initialized Router by only AppManager");
+        }
         this.router = router;
     }
 
+    /**
+     * 라우터를 반환한다.
+     *
+     * @returns {Router}
+     */
     public getRouter(): Router {
         return this.router;
     }
 
-    registerService(serviceName: string, servie: any): void {
-        throw new Error("not imlements abstract metnod");
+    /**
+     * 컴포넌트를 등록한다.
+     *
+     * @param {IComponent} component
+     * @param {string} moduleName
+     */
+    registerComponent(component: IComponent, moduleName?: string): void {
+        this.appModules.get(moduleName || this.defaultModuleName).addComponent(component);
     }
 
-    provideService(serviceName: string): any {
-        throw new Error("not imlements abstract metnod");
+    /**
+     * 컴포넌트를 제공한다.
+     *
+     * @param {string} componentName
+     * @param {string} moduleName
+     * @returns {IComponent}
+     */
+    provideComponent(componentName: string, moduleName?: string): IComponent {
+        return this.appModules.get(moduleName || this.defaultModuleName).getComponent(componentName);
     }
 
 
+    /**
+     * 서비스를 등록 한다.
+     *
+     * @param {IService} servie
+     * @param {string} moduleName
+     */
+    registerService(servie: IService, moduleName?: string): void {
+        this.appModules.get(moduleName || this.defaultModuleName).addSerivce(servie);
+    }
+
+    /**
+     * 서비스를 제공한다.
+     *
+     * @param {string} serviceName
+     * @param {string} moduleName
+     * @returns {IService}
+     */
+    provideService(serviceName: string, moduleName?: string): IService {
+        return this.appModules.get(moduleName || this.defaultModuleName).getService(serviceName);
+    }
 }
 
 //use to singleton

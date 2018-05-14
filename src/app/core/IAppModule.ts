@@ -25,11 +25,27 @@ interface IAppModule {
     addComponent(component: IComponent): void;
 
     /**
+     * 컴포넌트를 반환한다.
+     *
+     * @param {string} name
+     * @returns {IComponent}
+     */
+    getComponent(name: string): IComponent;
+
+    /**
      * 서비스를 추가한다.
      *
      * @param {IService} service
      */
     addSerivce(service: IService): void;
+
+    /**
+     * 서비스를 반환한다.
+     *
+     * @param {string} name
+     * @returns {IService}
+     */
+    getService(name: string): IService;
 
 }
 

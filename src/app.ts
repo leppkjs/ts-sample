@@ -15,6 +15,7 @@ new AppBuilder(new TermsConfig(data))
     .setModules(new TermsModule("termsModule",
         [new TermsComponent("termsComponent")],
         [new TService("tService")]))
+    .setDefaultModuleName("termsModule")
     .build()
     //AppManager bootStrap
-    .bootstrap("termsModule", "termsComponent");
+    .bootstrap("termsComponent");

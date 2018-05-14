@@ -7,31 +7,36 @@ abstract class AbstractComponent implements IComponent {
     /**
      * 컴포넌트 명칭
      */
-    name: string;
+    private readonly name: string;
     /**
      * 렌더링 대상 셀렉터
      */
-    selector: string;
+    protected selector: string;
     /**
      * 템플릿 주소
      */
-    templateUrl: string;
+    protected templateUrl: string;
 
     /**
      * 템플릿
      */
-    template: string;
+    protected template: string;
 
     /**
      * 스타일 주소 목록
      */
-    styleUrl: Array<string> = [];
+    protected styleUrl: Array<string> = [];
 
     /**
      * 서비스 목록
      */
-    services: Array<any> = [];
+    protected services: Array<any> = [];
 
+    /**
+     * 기본 생성자이다.
+     *
+     * @param {string} name
+     */
     constructor(name: string) {
         this.name = name;
     }
@@ -40,28 +45,28 @@ abstract class AbstractComponent implements IComponent {
      *
      * @returns {string}
      */
-    getName(): string {
+    public getName(): string {
         return this.name;
     }
 
     /**
      * 랜더링 이후 컴포넌트가 초기화 시킨다.
      */
-    init(): void {
+    protected init(): void {
         //throw new Error("Method not implemented.");
     }
 
     /**
      * 랜더링 전처리
      */
-    beforeRender(): void {
+    protected beforeRender(): void {
         //throw new Error("Method not implemented.");
     };
 
     /**
      * 랜더링 후처리
      */
-    afterRender(): void {
+    protected afterRender(): void {
         //throw new Error("Method not implemented.");
     };
 
@@ -70,7 +75,7 @@ abstract class AbstractComponent implements IComponent {
      *
      * @param {Function} renderer 템플릿 랜더러
      */
-    rendering(renderer: Function): void {
+    public rendering(renderer: Function): void {
         try {
             this.beforeRender();
         } catch(e) {
