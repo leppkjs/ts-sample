@@ -11,7 +11,6 @@ import IComponent from "./component/IComponent";
  * 어플리케이션 생명주기를 관리한다.
  */
 class ApplicationContext implements IServiceFactory<IComponent, IService> {
-
     /**
      * 환경정보
      */
@@ -134,7 +133,6 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
     provideComponent(componentName: string, moduleName?: string): IComponent {
         return this.appModules.get(moduleName || this.baseModuleName).getComponent(componentName);
     }
-
 
     /**
      * 서비스를 등록 한다.
