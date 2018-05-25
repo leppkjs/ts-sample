@@ -38,6 +38,9 @@ class TermsComponent extends AbstractComponent {
                                         </div>
                                     </div>
                                     <div id="terms-content__body" class="S terms-content__body">
+                                        <a href="/Terms">root</a>
+                                        <a href="/Terms/email/test/settings/">email</a>
+                                        <a href="/Terms/email/test/settings/dddd">email-option</a>
                                     </div>
                                 </div>
                             </div>
