@@ -3,13 +3,14 @@
  */
 interface IConfig {
     /**
-     * 
+     * 항목을 반환한다.
      * @param {string} key
      * @returns {any}
      */
     getItem(key: string): any;
 
     /**
+     * 항목을 설정한다.
      *
      * @param {string} key
      * @param value
