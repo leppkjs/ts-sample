@@ -4,7 +4,9 @@
         "sourceMap": false,
         "noImplicitAny": true,
         "module": "commonjs",
-        "target": "ES2017",
+        "target": "es5",
+        "lib": ["es7", "dom"],
+        "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         //javaScript 라이브러리를 사용할수 있게 한다.(stove-cafe library)
