@@ -16,8 +16,9 @@ export class Router {
         this.routes = [];
     }
     /* registers a Route with the Router */
-    registerRoute(route: Route): void {
+    registerRoute(route: Route): Router {
         this.routes.push(route);
+        return this;
     }
     /* gets a Consistent Route Path
      * provides Original Route for HTML4 browsers
@@ -36,9 +37,12 @@ export class Router {
      * if False is returned, we will be redirecting HTML4 browsers, so omit
      */
     start(): boolean {
+        console.log("start.....");
         var currentURL: string = window.location.pathname;
+        console.log(currentURL);
         // if Not supported, note the path, then redirect to base
         if (!(window.history && 'pushState' in window.history) && currentURL !== this.appBase) {
+            console.log(111);
             window.sessionStorage.setItem("html4.route", this.getCurrentPath());
             window.location.href = this.appBase;
             return false;
@@ -46,8 +50,10 @@ export class Router {
 
         // setup HTML5 Navigation Event
         if (window.history && 'pushState' in window.history) {
+            console.log(222);
             var router: Router = this;
             window.addEventListener("popstate", (ev: PopStateEvent): void=> {
+                console.log("popstate...");
                 var appRoute: string = window.location.pathname.substr(router.appBase.length);
                 for (var i: number = 0; i < router.routes.length; i++) {
                     var route: Route = router.routes[i];
@@ -59,7 +65,9 @@ export class Router {
             });
 
             $("a").on("click",function (event: JQuery.Event): void {
+                console.log("a click...");
                 var url: string = $(this).attr("href");
+                console.log("url :", url);
                 if (url.substr(0, router.appBase.length) === router.appBase) {
                     event.preventDefault();
                     router.navigateTo(url);
@@ -70,6 +78,7 @@ export class Router {
     }
     /* builds a Url from a Relative URL string (eg. api controller calls) */
     buildURL(relativeUrl: string): string {
+        console.log("buildURL.....")
         if (relativeUrl.charAt(0) === "/") {
             return this.siteBase + relativeUrl.substr(1);
         }
@@ -78,9 +87,11 @@ export class Router {
 
     /* navigates to a Route based on the string Provided */
     navigateTo(fullPath: string): boolean {
+        console.log("fullPath", fullPath);
         // make sure it's an app URL
         if (fullPath.substr(0, this.appBase.length) === this.appBase) {
             var appRoute: string = fullPath.substr(this.appBase.length);
+            console.log("appRoute", appRoute);
             // find the Route
             for (var i: number = 0; i < this.routes.length; i++) {
                 var route: Route = this.routes[i];
@@ -88,6 +99,7 @@ export class Router {
                     // execute this Matching Route
                     route.fn(route.getArguments(appRoute));
                     if (window.history && 'pushState' in window.history) {
+                        console.log("history", fullPath);
                         window.history.pushState(null, null, fullPath);
                     }
                     return true;

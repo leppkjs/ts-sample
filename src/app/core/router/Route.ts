@@ -2,7 +2,8 @@ import {IRouteConfig} from './IRouteConfig';
 import {IRouteExecute} from './IRouteExecute';
 import {IRouteValues} from './IRouteValues';
 
-/* route class (this class represent a route in the router)
+/**
+ * route class (this class represent a route in the router)
  * heavily based on: http://www.codeproject.com/Articles/495826/Roll-your-own-A-JavaScript-router
  */
 export class Route {
@@ -11,9 +12,11 @@ export class Route {
     private routeArguments: Array<string>;
     private routeOptional: Array<string>;
 
-    /* creates a route
-     * @param path Path for the Route use {id} to indicate id is required, :id: to indicate id is optional
-     * @param onRouteTo Function to Execute to start the Route
+    /**
+     * creates a route
+     *
+     * @param {string} path Path for the Route use {id} to indicate id is required, :id: to indicate id is optional
+     * @param {IRouteExecute} onRouteTo Function to Execute to start the Route
      */
     constructor(path: string, onRouteTo: IRouteExecute) {
         this.routeConfig = { path: path, onRouteTo: onRouteTo };
@@ -33,8 +36,12 @@ export class Route {
             }
         }, this);
     }
-    /* checks to see if this Route matches the provided path
-     * @param path Path to Validate for a match
+
+    /**
+     * checks to see if this Route matches the provided path
+     *
+     * @param {string} path Path to Validate for a match
+     * @returns {boolean}
      */
     matches(path: string): boolean {
         try {
@@ -65,8 +72,13 @@ export class Route {
             return false;
         }
     }
-    /* returns an IRouteValues of the parameters which were found in the path
+
+    /**
+     * returns an IRouteValues of the parameters which were found in the path
      * may return nothing if no paramters are in the route
+     *
+     * @param {string} path
+     * @returns {IRouteValues}
      */
     getArguments(path: string): IRouteValues {
         var args: IRouteValues = {};
@@ -82,6 +94,12 @@ export class Route {
         }
         return args;
     }
+
+    /**
+     * 경로가 일치 할 때 호출 할 콜백 함수
+     *
+     * @param {IRouteValues} values
+     */
     fn: IRouteExecute = (values: IRouteValues):void => {
         this.routeConfig.onRouteTo(values);
     };

@@ -35,7 +35,7 @@ class AppManager {
         applicationContext.setConfig(this, config);
         applicationContext.setModules(this, modules);
         applicationContext.setBaseModuleName(this, baseMouleName);
-        applicationContext.setRouter(this, new Router('/', '/'));
+        applicationContext.setRouter(this, new Router('/', '/Terms'));
     }
 
     /**
@@ -43,15 +43,13 @@ class AppManager {
      * TODO 외부 파일로 불리할것.
      */
     private initializeRouter(router: Router) {
-        router.registerRoute(new Route("", (values: IRouteValues) : void=> {
+        router.registerRoute(new Route("/", (values: IRouteValues) : void=> {
             console.log("home Route");
-        }));
-        router.registerRoute(new Route("/service/{service-id}/type/{type}/version/:version:", (values: IRouteValues): void => {
+        })).registerRoute(new Route("/service/{service-id}/type/{type}/version/:version:", (values: IRouteValues): void => {
             console.log("service id: " + values["service-id"]);
             // applicationContext.getComponent("");
 
-        }));
-        router.registerRoute(new Route("/email/{addr}/settings/:id:", (values: IRouteValues): void => {
+        })).registerRoute(new Route("/email/{addr}/settings/:id:", (values: IRouteValues): void => {
             if (values["id"] === null) {
                 console.log("settings for " + values["addr"]);
             }
@@ -69,8 +67,7 @@ class AppManager {
     public bootstrap(bootComponentName: string): void {
         document.addEventListener("DOMContentLoaded", (e) => {
             applicationContext.load(this, bootComponentName);
-            console.log("interceptor router....");
-            applicationContext.getRouter().navigateTo("/");
+            applicationContext.getRouter().start();
         });
     }
 
