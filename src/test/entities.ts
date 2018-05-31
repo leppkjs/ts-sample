@@ -11,6 +11,13 @@ class Katana implements Weapon {
 }
 
 @injectable()
+class Katana2 implements Weapon {
+    public hit() {
+        return "cut!!!!";
+    }
+}
+
+@injectable()
 class Shuriken implements ThrowableWeapon {
     public throw() {
         return "hit!";
@@ -31,9 +38,13 @@ class Ninja implements Warrior {
         this._shuriken = shuriken;
     }
 
-    public fight() { return this._katana.hit(); }
-    public sneak() { return this._shuriken.throw(); }
+    public fight() {
+        return this._katana.hit();
+    }
+    public sneak() {
+        return this._shuriken.throw();
+    }
 
 }
 
-export { Ninja, Katana, Shuriken };
+export { Ninja, Katana, Katana2, Shuriken };
