@@ -1,3 +1,4 @@
+import { Container } from "inversify";
 import IServiceFactory from './IServiceFactory';
 import {Router} from './router/Router';
 import IAppModule from "./module/IAppModule";
@@ -17,6 +18,11 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
     private config: IConfig;
 
     /**
+     * IOC 컨테이너
+     */
+    private iocContainer: Container;
+
+    /**
      * 기본 모듈 명칭
      */
     private baseModuleName: string;
@@ -30,6 +36,10 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 라우터
      */
     private router: Router;
+
+    public constructor() {
+        this.iocContainer = new Container();
+    }
 
     /**
      * 어플리케이션 적재한다.

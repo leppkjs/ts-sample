@@ -5,7 +5,7 @@ import IComponent from "../component/IComponent";
 /**
  * 모듈의 추상클래스이다.
  */
-abstract class AbstractModule implements IAppModule {
+abstract class AbstractModule<C extends IComponent, S extends IService> implements IAppModule {
     /**
      * 모듈명칭
      */

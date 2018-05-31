@@ -1,10 +1,12 @@
 import IService from "../core/service/IService";
 import AbstractModule from "../core/module/AbstractModule";
 import IComponent from "../core/component/IComponent";
+import {injectable} from "inversify";
 
 /**
  * Terms Application Module Implements
  */
+@injectable()
 class TermsModule extends AbstractModule {
     /**
      * 기본 생성자이다.

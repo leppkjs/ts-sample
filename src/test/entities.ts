@@ -28,18 +28,24 @@ class Shuriken implements ThrowableWeapon {
 class Ninja implements Warrior {
 
     private _katana: Weapon;
+    private _katana2: Weapon;
     private _shuriken: ThrowableWeapon;
 
     public constructor(
-        @inject(TYPES.Weapon) katana: Weapon,
-        @inject(TYPES.ThrowableWeapon) shuriken: ThrowableWeapon
+        @inject("Weapon") katana: Weapon,
+        @inject("Weapon2") katana2: Weapon,
+        @inject("ThrowableWeapon") shuriken: ThrowableWeapon
     ) {
         this._katana = katana;
+        this._katana2 = katana2;
         this._shuriken = shuriken;
     }
 
     public fight() {
         return this._katana.hit();
+    }
+    public fight2() {
+        return this._katana2.hit();
     }
     public sneak() {
         return this._shuriken.throw();

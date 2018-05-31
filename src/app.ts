@@ -1,21 +1,25 @@
-import 'babel-polyfill';
-import 'jquery.scrollbar/jquery.scrollbar.css';
-import './assets/css/relay_header.css';
-import './assets/css/terms.css';
-import * as data from './config/config.json';
+import { iocContainer } from "./test/inversify.config";
+import {ThrowableWeapon, Warrior, Weapon} from "./test/interfaces";
+import {Katana, Katana2, Ninja, Shuriken} from "./test/entities";
 
-import {AppBuilder} from './app/core/AppManager';
-import TermsModule from './app/term/TermsModule';
-import TermsConfig from './app/commons/TermsConfig';
-import TService from "./app/term/services/TService";
-import TermsComponent from "./app/term/TermsComponent";
+class Main {
+    private ninja: Warrior;
 
-//Application Build
-new AppBuilder(new TermsConfig(data))
-    .setModules(new TermsModule("termsModule",
-        [new TermsComponent("termsComponent")],
-        [new TService("tService")]))
-    .setBaseModuleName("termsModule")
-    .build()
-    //AppManager bootStrap
-    .bootstrap("termsComponent");
+    constructor() {
+        //등록~~!
+        iocContainer.set<Warrior>("Warrior", Ninja);
+        iocContainer.set<Weapon>("Weapon", Katana);
+        iocContainer.set<Weapon>("Weapon2", Katana2);
+        iocContainer.set<ThrowableWeapon>("ThrowableWeapon", Shuriken);
+    }
+
+    test() {
+        this.ninja = iocContainer.get<Warrior>("Warrior");
+
+        console.log(this.ninja.fight());
+        console.log(this.ninja.fight2());
+        console.log(this.ninja.sneak());
+    }
+}
+
+new Main().test();

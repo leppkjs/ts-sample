@@ -1,11 +1,24 @@
 import { Container } from "inversify";
-import { TYPES } from "./types";
-import { Warrior, Weapon, ThrowableWeapon } from "./interfaces";
-import { Ninja, Katana, Katana2, Shuriken } from "./entities";
+import {IService} from "./interfaces";
 
-const myContainer = new Container();
-myContainer.bind<Warrior>(TYPES.Warrior).to(Ninja);
-myContainer.bind<Weapon>(TYPES.Weapon).to(Katana2);
-myContainer.bind<ThrowableWeapon>(TYPES.ThrowableWeapon).to(Shuriken);
+class IocContainer {
+    private myContainer: Container;
+    public constructor() {
+        this.myContainer = new Container();
 
-export { myContainer };
+        //this.myContainer.bind<Warrior>(TYPES.Warrior).to(Ninja);
+        //this.myContainer.bind<Weapon>(TYPES.Weapon).to(Katana2);
+        //this.myContainer.bind<ThrowableWeapon>(TYPES.ThrowableWeapon).to(Shuriken);
+    }
+
+    set<T>(className: string, clazz: any): void {
+        this.myContainer.bind<T>(className).to(clazz);
+    }
+
+    get<T>(type: string): T {
+        return this.myContainer.get<T>(type);
+    }
+}
+
+
+export const iocContainer = new IocContainer();

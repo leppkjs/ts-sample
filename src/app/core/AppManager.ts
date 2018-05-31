@@ -107,7 +107,7 @@ class AppBuilder {
      * @param {Array<IAppModule>} modules
      * @returns {AppBuilder}
      */
-    public setModules(...modules: Array<IAppModule>): AppBuilder {
+    public setModules(...modules: Array<any>): AppBuilder {
         for(const module of modules) {
             this.appModules.set(module.getName(), module);
         }

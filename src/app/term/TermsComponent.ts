@@ -1,7 +1,11 @@
 import {TermsHeader} from "../commons/TermsHeader";
 import AbstractComponent from "../core/component/AbstractComponent";
 import {applicationContext} from '../core/ApplicationContext';
+import {inject, injectable} from "inversify";
+import {TYPES} from "../../test/types";
+import TService from "./services/TService";
 
+@injectable()
 class TermsComponent extends AbstractComponent {
     /**
      * 스토브 공통 컴포넌트 헤더
@@ -46,7 +50,7 @@ class TermsComponent extends AbstractComponent {
                             </div>
                         </div>`;
 
-    constructor(name: string) {
+    constructor(name: string, @inject(TYPES.Weapon)tservice:TService) {
         super(name);
         console.log("load TermsComponent...");
     }
