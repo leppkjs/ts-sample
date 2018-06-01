@@ -25,12 +25,12 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
     /**
      * 기본 모듈 명칭
      */
-    private baseModuleName: string;
+    private baseModuleName: string | symbol;
 
     /**
      * 어플리케이션 모듈 목록
      */
-    private appModules: Map<string, IAppModule> = new Map<string, IAppModule>();
+    private appModules: Map<string | symbol, IAppModule> = new Map<string | symbol, IAppModule>();
 
     /**
      * 라우터
@@ -45,8 +45,9 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 어플리케이션 적재한다.
      *
      * @param {AppManager} manager
+     * @param {string | symbol} componentName
      */
-    public load(manager: AppManager, componentName: string) {
+    public load(manager: AppManager, componentName: string | symbol) {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized by only AppManager");
         }
@@ -79,9 +80,9 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 모듈 목록을 등록한다.
      *
      * @param {AppManager} manager
-     * @param {Map<string, IAppModule>} modules
+     * @param {Map<string | symbol, IAppModule>} modules
      */
-    public setModules(manager: AppManager, modules: Map<string, IAppModule>): void {
+    public setModules(manager: AppManager, modules: Map<string | symbol, IAppModule>): void {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized Modules by only AppManager");
         }
@@ -91,9 +92,9 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
     /**
      * 기본모듈명을 설정한다.
      *
-     * @param {string} moduleName
+     * @param {string | symbol} moduleName
      */
-    public setBaseModuleName(manager: AppManager, moduleName: string) {
+    public setBaseModuleName(manager: AppManager, moduleName: string | symbol) {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized baseModuleName by only AppManager");
         }
@@ -127,20 +128,20 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 컴포넌트를 등록한다.
      *
      * @param {IComponent} component
-     * @param {string} moduleName
+     * @param {string | symbol} moduleName
      */
-    registerComponent(component: IComponent, moduleName?: string): void {
+    registerComponent(component: IComponent, moduleName?: string | symbol): void {
         this.appModules.get(moduleName || this.baseModuleName).addComponent(component);
     }
 
     /**
      * 컴포넌트를 제공한다.
      *
-     * @param {string} componentName
-     * @param {string} moduleName
+     * @param {string | symbol} componentName
+     * @param {string | symbol} moduleName
      * @returns {IComponent}
      */
-    provideComponent(componentName: string, moduleName?: string): IComponent {
+    provideComponent(componentName: string | symbol, moduleName?: string | symbol): IComponent {
         return this.appModules.get(moduleName || this.baseModuleName).getComponent(componentName);
     }
 
@@ -148,9 +149,9 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 서비스를 등록 한다.
      *
      * @param {IService} servie
-     * @param {string} moduleName
+     * @param {string | symbol} moduleName
      */
-    registerService(servie: IService, moduleName?: string): void {
+    registerService(servie: IService, moduleName?: string | symbol): void {
         this.appModules.get(moduleName || this.baseModuleName).addSerivce(servie);
     }
 
@@ -158,10 +159,10 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 서비스를 제공한다.
      *
      * @param {string} serviceName
-     * @param {string} moduleName
+     * @param {string | symbol} moduleName
      * @returns {IService}
      */
-    provideService(serviceName: string, moduleName?: string): IService {
+    provideService(serviceName: string, moduleName?: string | symbol): IService {
         return this.appModules.get(moduleName || this.baseModuleName).getService(serviceName);
     }
 }

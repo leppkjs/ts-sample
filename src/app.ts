@@ -1,25 +1,25 @@
-import { iocContainer } from "./test/inversify.config";
-import {ThrowableWeapon, Warrior, Weapon} from "./test/interfaces";
-import {Katana, Katana2, Ninja, Shuriken} from "./test/entities";
+import 'babel-polyfill';
+import 'jquery.scrollbar/jquery.scrollbar.css';
+import './assets/css/relay_header.css';
+import './assets/css/terms.css';
+import * as data from './config/config.json';
 
-class Main {
-    private ninja: Warrior;
+import {AppBuilder} from './app/core/AppManager';
+import TermsModule from './app/term/TermsModule';
+import TermsConfig from './app/commons/TermsConfig';
+import TService from "./app/term/services/TService";
+import TermsComponent from "./app/term/TermsComponent";
+import ModuleDTO from "./app/core/dto/ModuleDTO";
 
-    constructor() {
-        //등록~~!
-        iocContainer.set<Warrior>("Warrior", Ninja);
-        iocContainer.set<Weapon>("Weapon", Katana);
-        iocContainer.set<Weapon>("Weapon2", Katana2);
-        iocContainer.set<ThrowableWeapon>("ThrowableWeapon", Shuriken);
-    }
-
-    test() {
-        this.ninja = iocContainer.get<Warrior>("Warrior");
-
-        console.log(this.ninja.fight());
-        console.log(this.ninja.fight2());
-        console.log(this.ninja.sneak());
-    }
-}
-
-new Main().test();
+//Application Build
+new AppBuilder(new TermsConfig(data))
+    .setModules(ModuleDTO.create({
+        name: Symbol.for("termsModule"),
+        module : TermsModule,
+        components: [{name: Symbol.for("termsComponent"), component: TermsComponent}],
+        services: [{name: Symbol.for("tService"), service: TService}]
+    }))
+    .setBaseModuleName(Symbol.for("termsModule"))
+    .build()
+    //AppManager bootStrap
+    .bootstrap(Symbol.for("termsComponent"));

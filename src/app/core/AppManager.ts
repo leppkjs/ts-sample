@@ -4,6 +4,7 @@ import {Router} from './router/Router';
 import {Route} from './router/Route';
 import {IRouteValues} from './router/IRouteValues';
 import {applicationContext} from './ApplicationContext';
+import ModuleDTO from "./dto/ModuleDTO";
 
 /**
  * 어플리케이션 관리자
@@ -14,10 +15,10 @@ class AppManager {
      * 기본 생성자
      *
      * @param {IConfig} config
-     * @param {Map<string, IAppModule>} modules
+     * @param {Array<ModuleDTO>} modules
      * @param {string} baseMouleName
      */
-    constructor(config: IConfig, modules: Map<string, IAppModule>, baseMouleName: string) {
+    constructor(config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol) {
         console.log("load AppManager");
 
         this.initializeContext(config, modules, baseMouleName);
@@ -25,17 +26,36 @@ class AppManager {
     }
 
     /**
+     * 어플리케이션을 부트스트랩 한다.
+     *
+     * @param {string} bootComponentName
+     */
+    public bootstrap(bootComponentName: string | symbol): void {
+        document.addEventListener("DOMContentLoaded", (e) => {
+            applicationContext.load(this, bootComponentName);
+            applicationContext.getRouter().start();
+        });
+    }
+
+    /**
      * 컨텍스트를 초기화 한다.
      *
      * @param {IConfig} config
-     * @param {Map<string, IAppModule>} modules
-     * @param {string} baseMouleName
+     * @param {Array<IAppModule>} modules
+     * @param {string | symbol} baseMouleName
      */
-    private initializeContext(config: IConfig, modules: Map<string, IAppModule>, baseMouleName: string): void {
+    private initializeContext(config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol): void {
         applicationContext.setConfig(this, config);
-        applicationContext.setModules(this, modules);
+        applicationContext.setModules(this, this.converterModule(modules));
         applicationContext.setBaseModuleName(this, baseMouleName);
         applicationContext.setRouter(this, new Router('/', '/Terms'));
+    }
+
+    private converterModule(modules: Array<ModuleDTO>): Map<string | symbol, Class> {
+        return modules.reduce((modules: Map<string | symbol, Class>, module: ModuleDTO) => {
+            modules.set(module.name, module.module);
+            return modules;
+        });
     }
 
     /**
@@ -58,19 +78,6 @@ class AppManager {
             }
         }));
     }
-
-    /**
-     * 어플리케이션을 부트스트랩 한다.
-     *
-     * @param {string} bootComponentName
-     */
-    public bootstrap(bootComponentName: string): void {
-        document.addEventListener("DOMContentLoaded", (e) => {
-            applicationContext.load(this, bootComponentName);
-            applicationContext.getRouter().start();
-        });
-    }
-
 }
 
 /**
@@ -85,12 +92,12 @@ class AppBuilder {
     /**
      * 어플리케이션 모듈
      */
-    private appModules: Map<string, IAppModule> = new Map<string, IAppModule>();
+    private appModules: Array<ModuleDTO> = new Array<ModuleDTO>();
 
     /**
      * 기본 모듈 명칭
      */
-    private baseModuleName: string;
+    private baseModuleName: string | symbol;
 
     /**
      * 기본 생성자
@@ -104,25 +111,22 @@ class AppBuilder {
     /**
      * 모듈 목록을 설정한다.
      *
-     * @param {Array<IAppModule>} modules
+     * @param {Array<ModuleDTO>} modules
      * @returns {AppBuilder}
      */
-    public setModules(...modules: Array<any>): AppBuilder {
-        for(const module of modules) {
-            this.appModules.set(module.getName(), module);
-        }
-
+    public setModules(...modules: Array<ModuleDTO>): AppBuilder {
+        this.appModules = [...modules];
         return this;
     }
 
     /**
      * 모듈을 등록한다.
      *
-     * @param IAppModule modules
+     * @param ModuleDTO modules
      * @returns {AppBuilder}
      */
-    public addModule(module: IAppModule): AppBuilder {
-        this.appModules.set(module.getName(), module);
+    public addModule(module: ModuleDTO): AppBuilder {
+        this.appModules.push(module);
         return this;
     }
 
@@ -132,8 +136,8 @@ class AppBuilder {
      * @param {string} baseModuleName
      * @returns {AppBuilder}
      */
-    public setBaseModuleName(baseModuleName: string): AppBuilder {
-        if(!Array.from(this.appModules.keys()).find((value, index) => value === baseModuleName)) {
+    public setBaseModuleName(baseModuleName: string | symbol): AppBuilder {
+        if(!this.appModules.find((module : ModuleDTO, index) => module.name === baseModuleName)) {
             throw new Error(`Unregistered name ${baseModuleName}. Please register first.`);
         }
         this.baseModuleName = baseModuleName;
@@ -146,11 +150,11 @@ class AppBuilder {
      * @returns {AppManager}
      */
     public build(): AppManager {
-        if(0 >= this.appModules.size) {
+        if(0 >= this.appModules.length) {
             throw new Error("register more than one Module");
         }
 
-        return new AppManager(this.config, this.appModules, this.baseModuleName || Array.from(this.appModules.keys())[0]);
+        return new AppManager(this.config, this.appModules, this.baseModuleName || this.appModules[0].name);
     }
 
 }

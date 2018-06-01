@@ -7,7 +7,7 @@ import {injectable} from "inversify";
  * Terms Application Module Implements
  */
 @injectable()
-class TermsModule extends AbstractModule {
+class TermsModule extends AbstractModule<IComponent, IService> {
     /**
      * 기본 생성자이다.
      *
