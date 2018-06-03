@@ -82,10 +82,14 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @param {AppManager} manager
      * @param {Map<string | symbol, IAppModule>} modules
      */
-    public setModules(manager: AppManager, modules: Map<string | symbol, IAppModule>): void {
+    public setModules(manager: AppManager, modules: Map<string | symbol, Class>): void {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized Modules by only AppManager");
         }
+        for(module of modules) {
+            this.myContainer.bind<T>(className).to(clazz);
+        }
+
         this.appModules = modules;
     }
 

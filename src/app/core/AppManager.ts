@@ -55,7 +55,7 @@ class AppManager {
         return modules.reduce((modules: Map<string | symbol, Class>, module: ModuleDTO) => {
             modules.set(module.name, module.module);
             return modules;
-        });
+        }, new Map<string | symbol, Class>());
     }
 
     /**
