@@ -1,13 +1,11 @@
 import IComponent from "./IComponent";
+import {injectable} from "inversify";
 
 /**
  * 컴포넌트의 추상클래스이다.
  */
+@injectable()
 abstract class AbstractComponent implements IComponent {
-    /**
-     * 컴포넌트 명칭
-     */
-    private readonly name: string;
     /**
      * 렌더링 대상 셀렉터
      */
@@ -31,23 +29,6 @@ abstract class AbstractComponent implements IComponent {
      * 서비스 목록
      */
     protected services: Array<any> = [];
-
-    /**
-     * 기본 생성자이다.
-     *
-     * @param {string} name
-     */
-    constructor(name: string) {
-        this.name = name;
-    }
-
-    /**
-     *
-     * @returns {string}
-     */
-    public getName(): string {
-        return this.name;
-    }
 
     /**
      * 랜더링 이후 컴포넌트가 초기화 시킨다.

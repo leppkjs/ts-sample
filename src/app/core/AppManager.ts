@@ -46,12 +46,17 @@ class AppManager {
      */
     private initializeContext(config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol): void {
         applicationContext.setConfig(this, config);
-        applicationContext.setModules(this, this.converterModule(modules));
+        applicationContext.setModules(this, modules);
         applicationContext.setBaseModuleName(this, baseMouleName);
         applicationContext.setRouter(this, new Router('/', '/Terms'));
     }
 
-    private converterModule(modules: Array<ModuleDTO>): Map<string | symbol, Class> {
+    /**
+     * 모듈목록을 키/밸류 맵 목록으로 변환한다.
+     * @param {Array<ModuleDTO>} modules
+     * @returns {Map<string | symbol, Class>}
+     */
+    private converterModuleMap(modules: Array<ModuleDTO>): Map<string | symbol, Class> {
         return modules.reduce((modules: Map<string | symbol, Class>, module: ModuleDTO) => {
             modules.set(module.name, module.module);
             return modules;

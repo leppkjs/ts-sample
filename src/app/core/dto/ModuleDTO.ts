@@ -16,8 +16,8 @@ class ModuleDTO {
     constructor(
         public name: string | symbol,
         public module: Class,
-        public components?: Array<ComponentDTO>,
-        public services?: Array<ServiceDTO>
+        public components: Array<ComponentDTO> = [],
+        public services: Array<ServiceDTO> = []
     ){}
 
     /**
@@ -27,7 +27,9 @@ class ModuleDTO {
      * @returns {ModuleDTO} 생성된 객체
      */
     static create(src: ModuleDTO): ModuleDTO {
-        return new ModuleDTO(src.name, src.module, (src.components ? src.components.map((value:ComponentDTO, index:number) => ComponentDTO.create(value)) : []));
+        return new ModuleDTO(src.name, src.module,
+            (src.components ? src.components.map((value:ComponentDTO, index:number) => ComponentDTO.create(value)) : []),
+            (src.services ? src.services.map((value:ServiceDTO, index:number) => ServiceDTO.create(value)) : []));
     }
 }
 

@@ -3,8 +3,9 @@ import {injectable} from "inversify";
 
 @injectable()
 class TComponent extends AbstractComponent {
-    constructor(name: string) {
-        super(name);
+    constructor() {
+        super();
+        console.log("load TComponent");
     }
 }
 

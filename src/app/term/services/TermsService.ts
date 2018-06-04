@@ -2,9 +2,10 @@ import AbstractService from "../../core/service/AbstractService";
 import {injectable} from "inversify";
 
 @injectable()
-class TService extends AbstractService{
-    constructor(name: string) {
-        super(name);
+class TermsService extends AbstractService{
+    constructor() {
+        super();
+        console.log("load TService");
     }
 
     test(name: string): void {
@@ -12,4 +13,4 @@ class TService extends AbstractService{
     }
 }
 
-export default TService;
+export default TermsService;

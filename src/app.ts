@@ -3,11 +3,12 @@ import 'jquery.scrollbar/jquery.scrollbar.css';
 import './assets/css/relay_header.css';
 import './assets/css/terms.css';
 import * as data from './config/config.json';
+import './app/core/tools/Class';
 
 import {AppBuilder} from './app/core/AppManager';
 import TermsModule from './app/term/TermsModule';
 import TermsConfig from './app/commons/TermsConfig';
-import TService from "./app/term/services/TService";
+import TermsService from "./app/term/services/TermsService";
 import TermsComponent from "./app/term/TermsComponent";
 import ModuleDTO from "./app/core/dto/ModuleDTO";
 
@@ -17,7 +18,7 @@ new AppBuilder(new TermsConfig(data))
         name: Symbol.for("termsModule"),
         module : TermsModule,
         components: [{name: Symbol.for("termsComponent"), component: TermsComponent}],
-        services: [{name: Symbol.for("tService"), service: TService}]
+        services: [{name: Symbol.for("termsService"), service: TermsService}]
     }))
     .setBaseModuleName(Symbol.for("termsModule"))
     .build()

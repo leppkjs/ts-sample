@@ -6,12 +6,15 @@ import IConfig from "./IConfig";
 import IService from "./service/IService";
 import {AppManager} from "./AppManager";
 import IComponent from "./component/IComponent";
+import ModuleDTO from "./dto/ModuleDTO";
+import ComponentDTO from "./dto/ComponentDTO";
+import ServiceDTO from "./dto/ServiceDTO";
 
 /**
  * 어플리케이션 컨텍스트이다.
  * 어플리케이션 생명주기를 관리한다.
  */
-class ApplicationContext implements IServiceFactory<IComponent, IService> {
+class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, ServiceDTO, IService> {
     /**
      * 환경정보
      */
@@ -26,11 +29,6 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * 기본 모듈 명칭
      */
     private baseModuleName: string | symbol;
-
-    /**
-     * 어플리케이션 모듈 목록
-     */
-    private appModules: Map<string | symbol, IAppModule> = new Map<string | symbol, IAppModule>();
 
     /**
      * 라우터
@@ -51,7 +49,7 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized by only AppManager");
         }
-        this.appModules.get(this.baseModuleName).load(componentName);
+        this.iocContainer.get<IAppModule>(this.baseModuleName).load(componentName);
     }
 
     /**
@@ -82,15 +80,18 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @param {AppManager} manager
      * @param {Map<string | symbol, IAppModule>} modules
      */
-    public setModules(manager: AppManager, modules: Map<string | symbol, Class>): void {
+    public setModules(manager: AppManager, modules: Array<ModuleDTO>): void {
         if(!(manager instanceof AppManager)) {
             throw new Error("It is only initialized Modules by only AppManager");
         }
-        for(module of modules) {
-            this.myContainer.bind<T>(className).to(clazz);
-        }
 
-        this.appModules = modules;
+        modules.reduce((iocContainer, module: ModuleDTO) => {
+            iocContainer.bind<IAppModule>(module.name).to(module.module);
+            module.components.forEach(component => this.registerComponent(component));
+            module.services.forEach(service => this.registerService(service));
+
+            return iocContainer;
+        }, this.iocContainer);
     }
 
     /**
@@ -134,8 +135,8 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @param {IComponent} component
      * @param {string | symbol} moduleName
      */
-    registerComponent(component: IComponent, moduleName?: string | symbol): void {
-        this.appModules.get(moduleName || this.baseModuleName).addComponent(component);
+    registerComponent(component: ComponentDTO, moduleName?: string | symbol): void {
+        this.iocContainer.bind<IComponent>(component.name).to(component.component);
     }
 
     /**
@@ -146,28 +147,28 @@ class ApplicationContext implements IServiceFactory<IComponent, IService> {
      * @returns {IComponent}
      */
     provideComponent(componentName: string | symbol, moduleName?: string | symbol): IComponent {
-        return this.appModules.get(moduleName || this.baseModuleName).getComponent(componentName);
+        return this.iocContainer.get<IComponent>(componentName);
     }
 
     /**
      * 서비스를 등록 한다.
      *
-     * @param {IService} servie
+     * @param {ServiceDTO} servie
      * @param {string | symbol} moduleName
      */
-    registerService(servie: IService, moduleName?: string | symbol): void {
-        this.appModules.get(moduleName || this.baseModuleName).addSerivce(servie);
+    registerService(service: ServiceDTO, moduleName?: string | symbol): void {
+        this.iocContainer.bind<IService>(service.name).to(service.service);
     }
 
     /**
      * 서비스를 제공한다.
      *
-     * @param {string} serviceName
+     * @param {string | symbol} serviceName
      * @param {string | symbol} moduleName
      * @returns {IService}
      */
-    provideService(serviceName: string, moduleName?: string | symbol): IService {
-        return this.appModules.get(moduleName || this.baseModuleName).getService(serviceName);
+    provideService(serviceName: string | symbol, moduleName?: string | symbol): IService {
+        return this.iocContainer.get<IService>(serviceName);
     }
 }
 

@@ -2,32 +2,26 @@ import IService from "../core/service/IService";
 import AbstractModule from "../core/module/AbstractModule";
 import IComponent from "../core/component/IComponent";
 import {injectable} from "inversify";
+import {applicationContext} from "../core/ApplicationContext";
 
 /**
  * Terms Application Module Implements
  */
 @injectable()
-class TermsModule extends AbstractModule<IComponent, IService> {
+class TermsModule extends AbstractModule {
     /**
      * 기본 생성자이다.
-     *
-     * @param {string} name 컴포넌트명칭
-     * @param {Array<IComponent>} components 컴포넌트목록
-     * @param {Array<IService>} services 서비스목록
      */
-    constructor(name:string, components: Array<IComponent>, services: Array<IService>) {
-        super(name, components, services);
+    constructor() {
+        super();
         console.log("load TermsModule");
     }
 
     /**
      * 부트스트랩 컴포넌트를 적재한다.
      */
-    public load(bootstrapComponent: string): void {
-        if(!this.components.has(bootstrapComponent)) {
-            throw new Error(`not exist ${bootstrapComponent} Component`);
-        }
-        this.components.get(bootstrapComponent).rendering(this.renderer);
+    public load(bootstrapComponent: string | symbol): void {
+        applicationContext.provideComponent(bootstrapComponent).rendering(this.renderer);
     }
 
     /**
