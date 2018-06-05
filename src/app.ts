@@ -12,7 +12,10 @@ import TermsService from "./app/term/services/TermsService";
 import TermsComponent from "./app/term/TermsComponent";
 import ModuleDTO from "./app/core/dto/ModuleDTO";
 
-//Application Build
+/**
+ * Application Build
+ * TermsModule
+ */
 new AppBuilder(new TermsConfig(data))
     .setModules(ModuleDTO.create({
         name: Symbol.for("termsModule"),

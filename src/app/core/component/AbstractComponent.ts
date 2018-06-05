@@ -1,5 +1,7 @@
 import IComponent from "./IComponent";
 import {injectable} from "inversify";
+import TermsModule from "../../term/TermsModule";
+import IAppModule from "../module/IAppModule";
 
 /**
  * 컴포넌트의 추상클래스이다.
@@ -54,9 +56,9 @@ abstract class AbstractComponent implements IComponent {
     /**
      * 컴포넌트 템플릿을 랜더링 한다.
      *
-     * @param {Function} renderer 템플릿 랜더러
+     * @param {IAppModule} appModule 템플릿 랜더러
      */
-    public rendering(renderer: Function): void {
+    public rendering(appModule: IAppModule): void {
         try {
             this.beforeRender();
         } catch(e) {
@@ -65,10 +67,10 @@ abstract class AbstractComponent implements IComponent {
         }
 
         try{
-            renderer(this.selector, this.template);
+            appModule.renderer(this.selector, this.templateUrl);
         } catch(e) {
             console.error("Exception to rendering Component!!!", e)
-            throw new e;
+            throw e;
         } finally {
             try {
                 this.afterRender();

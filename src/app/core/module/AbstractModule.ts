@@ -18,6 +18,13 @@ abstract class AbstractModule implements IAppModule {
      * @param {string} bootstrapComponent
      */
     abstract load(bootstrapComponent: string): void;
+
+    /**
+     *
+     * @param {string} selector
+     * @param {string} templateUrl
+     */
+    abstract renderer(selector: string, templateUrl: string): void;
 }
 
 export default AbstractModule;

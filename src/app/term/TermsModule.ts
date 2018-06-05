@@ -21,7 +21,7 @@ class TermsModule extends AbstractModule {
      * 부트스트랩 컴포넌트를 적재한다.
      */
     public load(bootstrapComponent: string | symbol): void {
-        applicationContext.provideComponent(bootstrapComponent).rendering(this.renderer);
+        applicationContext.provideComponent(bootstrapComponent).rendering(this);
     }
 
     /**
@@ -29,9 +29,8 @@ class TermsModule extends AbstractModule {
      * @param {string} selector
      * @param {string} template
      */
-    private renderer(selector: string, template: string): void {
-        //TODO template urls 를 받아서         const unit = await import("./dddddd");
-        document.querySelector(selector).innerHTML = template;
+    public renderer(selector: string, templateUrl: string): void {
+        this.rendererToTemplateUrl(selector, `/template/${templateUrl}`);
     }
 
     /**
@@ -40,17 +39,22 @@ class TermsModule extends AbstractModule {
      * @param {string} templateUrl
      */
     private rendererToTemplateUrl(selector: string, templateUrl: string): void {
-        const link = document.createElement('link');
+        const link: HTMLLinkElement = document.createElement('link');
         link.rel = 'import';
         link.href = templateUrl;
         link.setAttribute('async', '');
 
-        link.onload = () => {
+        link.onload = (event: Event) => {
             console.log("load complete Template...");
             const template = link.import.querySelector('template');
             const clone = document.importNode(template.content, true);
             document.querySelector(selector).appendChild(clone);
         };
+
+        link.onerror = (errorEvent: ErrorEvent) => {
+            console.log(`[ERROR] load resource(${templateUrl}) cause : ${errorEvent.message}`);
+        };
+
         document.head.appendChild(link);
     }
 

@@ -13,18 +13,19 @@ class TermsComponent extends AbstractComponent {
 
     selector: string = "#app-root";
 
-    template: string = `
-                        `;
+    templateUrl: string = "TermsComponent.html";
 
-    constructor(@inject(Symbol.for("termsService"))termsService: TermsService) {
+    constructor(@inject(Symbol.for("termsService"))public termsService: TermsService) {
         super();
         console.log("load TermsComponent...");
-        termsService.test("ttttt");
     }
 
     init() {
         this.createStoveHeader('#terms-header').render();
+        this.termsService.test("ttttt");
     }
+
+
 
     /**
      * 스토브 공통 컴포넌트 헤더를 생성하여 반환한다.
