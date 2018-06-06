@@ -1,11 +1,11 @@
-import AbstractComponent from "../core/component/AbstractComponent";
-import {injectable} from "inversify";
+import AbstractComponent from '../core/component/AbstractComponent';
+import { injectable } from 'inversify';
 
 @injectable()
 class TComponent extends AbstractComponent {
-    constructor() {
+    constructor () {
         super();
-        console.log("load TComponent");
+        console.log('load TComponent');
     }
 }
 

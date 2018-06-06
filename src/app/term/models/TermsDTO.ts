@@ -1,7 +1,7 @@
-import TermsItemDTO from "./TermsItemDTO";
+import TermsItemDTO from './TermsItemDTO';
 
 class TermsDTO {
-    constructor(
+    constructor (
         public version: string,
         public terms: Array<TermsItemDTO>
     ) {}

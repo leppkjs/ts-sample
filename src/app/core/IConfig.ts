@@ -7,7 +7,7 @@ interface IConfig {
      * @param {string} key
      * @returns {any}
      */
-    getItem(key: string): any;
+    getItem (key: string): any;
 
     /**
      * 항목을 설정한다.
@@ -15,7 +15,7 @@ interface IConfig {
      * @param {string} key
      * @param value
      */
-    setItem(key: string, value: any): void;
+    setItem (key: string, value: any): void;
 }
 
 export default IConfig;

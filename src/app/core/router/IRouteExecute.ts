@@ -1,4 +1,4 @@
-import {IRouteValues} from './IRouteValues';
+import { IRouteValues } from './IRouteValues';
 
 /* defines execution method for a route */
 export interface IRouteExecute {

@@ -10,7 +10,8 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         //javaScript 라이브러리를 사용할수 있게 한다.(stove-cafe library)
-        "allowJs": true
+        "allowJs": true,
+        "strictNullChecks": true
     },
     "include": [
         "./src/**/*"

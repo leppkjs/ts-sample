@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "build": "webpack",
+    "lint": "tslint -p .",
     "start": "cross-env SERVER=dev webpack-dev-server --hot"
   },
   "keywords": [],
@@ -36,7 +37,8 @@
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.2.0",
-    "tslint": "^5.9.1",
+    "tslint": "^5.10.0",
+    "tslint-config-standard": "^7.0.0",
     "typescript": "^2.8.3",
     "url-loader": "^1.0.1",
     "webpack": "^4.6.0",

@@ -1,10 +1,10 @@
 import IAppModule from './module/IAppModule';
 import IConfig from '../core/IConfig';
-import {Router} from './router/Router';
-import {Route} from './router/Route';
-import {IRouteValues} from './router/IRouteValues';
-import {applicationContext} from './ApplicationContext';
-import ModuleDTO from "./dto/ModuleDTO";
+import { Router } from './router/Router';
+import { Route } from './router/Route';
+import { IRouteValues } from './router/IRouteValues';
+import { applicationContext } from './ApplicationContext';
+import ModuleDTO from './dto/ModuleDTO';
 
 /**
  * 어플리케이션 관리자
@@ -18,8 +18,8 @@ class AppManager {
      * @param {Array<ModuleDTO>} modules
      * @param {string} baseMouleName
      */
-    constructor(config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol) {
-        console.log("load AppManager");
+    constructor (config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol) {
+        console.log('load AppManager');
 
         this.initializeContext(config, modules, baseMouleName);
         this.initializeRouter(applicationContext.getRouter());
@@ -30,8 +30,8 @@ class AppManager {
      *
      * @param {string} bootComponentName
      */
-    public bootstrap(bootComponentName: string | symbol): void {
-        document.addEventListener("DOMContentLoaded", (e) => {
+    public bootstrap (bootComponentName: string | symbol): void {
+        document.addEventListener('DOMContentLoaded', (e) => {
             applicationContext.load(this, bootComponentName);
             applicationContext.getRouter().start();
         });
@@ -44,7 +44,7 @@ class AppManager {
      * @param {Array<IAppModule>} modules
      * @param {string | symbol} baseMouleName
      */
-    private initializeContext(config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol): void {
+    private initializeContext (config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol): void {
         applicationContext.setConfig(this, config);
         applicationContext.setModules(this, modules);
         applicationContext.setBaseModuleName(this, baseMouleName);
@@ -56,7 +56,7 @@ class AppManager {
      * @param {Array<ModuleDTO>} modules
      * @returns {Map<string | symbol, Class>}
      */
-    private converterModuleMap(modules: Array<ModuleDTO>): Map<string | symbol, Class> {
+    private converterModuleMap (modules: Array<ModuleDTO>): Map<string | symbol, Class> {
         return modules.reduce((modules: Map<string | symbol, Class>, module: ModuleDTO) => {
             modules.set(module.name, module.module);
             return modules;
@@ -67,19 +67,18 @@ class AppManager {
      * 라우터를 초기화 한다.
      * TODO 외부 파일로 불리할것.
      */
-    private initializeRouter(router: Router) {
-        router.registerRoute(new Route("/", (values: IRouteValues) : void=> {
-            console.log("home Route");
-        })).registerRoute(new Route("/service/{service-id}/type/{type}/version/:version:", (values: IRouteValues): void => {
-            console.log("service id: " + values["service-id"]);
+    private initializeRouter (router: Router) {
+        router.registerRoute(new Route('/', (values: IRouteValues): void => {
+            console.log('home Route');
+        })).registerRoute(new Route('/service/{service-id}/type/{type}/version/:version:', (values: IRouteValues): void => {
+            console.log('service id: ' + values['service-id']);
             // applicationContext.getComponent("");
 
-        })).registerRoute(new Route("/email/{addr}/settings/:id:", (values: IRouteValues): void => {
-            if (values["id"] === null) {
-                console.log("settings for " + values["addr"]);
-            }
-            else {
-                console.log("setting id: " + values["id"] + " for " + values["addr"]);
+        })).registerRoute(new Route('/email/{addr}/settings/:id:', (values: IRouteValues): void => {
+            if (values['id'] === null) {
+                console.log('settings for ' + values['addr']);
+            } else {
+                console.log('setting id: ' + values['id'] + ' for ' + values['addr']);
             }
         }));
     }
@@ -109,7 +108,7 @@ class AppBuilder {
      *
      * @param {IConfig} config 환경정보
      */
-    constructor(config: IConfig) {
+    constructor (config: IConfig) {
         this.config = config;
     }
 
@@ -119,7 +118,7 @@ class AppBuilder {
      * @param {Array<ModuleDTO>} modules
      * @returns {AppBuilder}
      */
-    public setModules(...modules: Array<ModuleDTO>): AppBuilder {
+    public setModules (...modules: Array<ModuleDTO>): AppBuilder {
         this.appModules = [...modules];
         return this;
     }
@@ -130,7 +129,7 @@ class AppBuilder {
      * @param ModuleDTO modules
      * @returns {AppBuilder}
      */
-    public addModule(module: ModuleDTO): AppBuilder {
+    public addModule (module: ModuleDTO): AppBuilder {
         this.appModules.push(module);
         return this;
     }
@@ -141,8 +140,8 @@ class AppBuilder {
      * @param {string} baseModuleName
      * @returns {AppBuilder}
      */
-    public setBaseModuleName(baseModuleName: string | symbol): AppBuilder {
-        if(!this.appModules.find((module : ModuleDTO, index) => module.name === baseModuleName)) {
+    public setBaseModuleName (baseModuleName: string | symbol): AppBuilder {
+        if (!this.appModules.find((module: ModuleDTO, index) => module.name === baseModuleName)) {
             throw new Error(`Unregistered name ${baseModuleName}. Please register first.`);
         }
         this.baseModuleName = baseModuleName;
@@ -154,9 +153,9 @@ class AppBuilder {
      *
      * @returns {AppManager}
      */
-    public build(): AppManager {
-        if(0 >= this.appModules.length) {
-            throw new Error("register more than one Module");
+    public build (): AppManager {
+        if (0 >= this.appModules.length) {
+            throw new Error('register more than one Module');
         }
 
         return new AppManager(this.config, this.appModules, this.baseModuleName || this.appModules[0].name);
@@ -164,4 +163,4 @@ class AppBuilder {
 
 }
 
-export {AppManager, AppBuilder};
+export { AppManager, AppBuilder };

@@ -1,5 +1,5 @@
-import IService from "./IService";
-import {injectable} from "inversify";
+import IService from './IService';
+import { injectable } from 'inversify';
 
 /**
  * 서비스의 추상클래스이다.

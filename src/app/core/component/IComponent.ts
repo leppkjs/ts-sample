@@ -1,4 +1,4 @@
-import IAppModule from "../module/IAppModule";
+import IAppModule from '../module/IAppModule';
 
 /**
  * 컴포넌트 최상위 인터페이스이다.
@@ -9,7 +9,7 @@ interface IComponent {
      *
      * @param {IAppModule} renderer 템플릿 랜더러
      */
-    rendering(renderer: IAppModule): void;
+    rendering (renderer: IAppModule): void;
 }
 
 export default IComponent;

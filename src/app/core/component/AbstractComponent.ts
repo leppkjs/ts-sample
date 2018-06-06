@@ -1,7 +1,6 @@
-import IComponent from "./IComponent";
-import {injectable} from "inversify";
-import TermsModule from "../../term/TermsModule";
-import IAppModule from "../module/IAppModule";
+import IComponent from './IComponent';
+import { injectable } from 'inversify';
+import IAppModule from '../module/IAppModule';
 
 /**
  * 컴포넌트의 추상클래스이다.
@@ -35,48 +34,48 @@ abstract class AbstractComponent implements IComponent {
     /**
      * 랜더링 이후 컴포넌트가 초기화 시킨다.
      */
-    protected init(): void {
-        //throw new Error("Method not implemented.");
+    protected init (): void {
+        // throw new Error("Method not implemented.");
     }
 
     /**
      * 랜더링 전처리
      */
-    protected beforeRender(): void {
-        //throw new Error("Method not implemented.");
-    };
+    protected beforeRender (): void {
+        // throw new Error("Method not implemented.");
+    }
 
     /**
      * 랜더링 후처리
      */
-    protected afterRender(): void {
-        //throw new Error("Method not implemented.");
-    };
+    protected afterRender (): void {
+        // throw new Error("Method not implemented.");
+    }
 
     /**
      * 컴포넌트 템플릿을 랜더링 한다.
      *
      * @param {IAppModule} appModule 템플릿 랜더러
      */
-    public rendering(appModule: IAppModule): void {
+    public rendering (appModule: IAppModule): void {
         try {
             this.beforeRender();
-        } catch(e) {
-            //전처리는 랜더링 부수적 기능으로 간주하여 에러로그로만 처리하고 전체흐름에 영향을 없게 한다.
-            console.error("Exception to beforeRender", e);
+        } catch (e) {
+            // 전처리는 랜더링 부수적 기능으로 간주하여 에러로그로만 처리하고 전체흐름에 영향을 없게 한다.
+            console.error('Exception to beforeRender', e);
         }
 
-        try{
+        try {
             appModule.renderer(this.selector, this.templateUrl);
-        } catch(e) {
-            console.error("Exception to rendering Component!!!", e)
+        } catch (e) {
+            console.error('Exception to rendering Component!!!', e);
             throw e;
         } finally {
             try {
                 this.afterRender();
-            } catch(e) {
-                //후처리는 랜더링 부수적 기능으로 간주하여 에러로그로만 처리하고 전체흐름에 영향을 없게 한다.
-                console.error("Exception to afterRender", e);
+            } catch (e) {
+                // 후처리는 랜더링 부수적 기능으로 간주하여 에러로그로만 처리하고 전체흐름에 영향을 없게 한다.
+                console.error('Exception to afterRender', e);
             }
         }
 

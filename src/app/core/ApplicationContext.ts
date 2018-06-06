@@ -1,14 +1,14 @@
-import { Container } from "inversify";
+import { Container } from 'inversify';
 import IServiceFactory from './IServiceFactory';
-import {Router} from './router/Router';
-import IAppModule from "./module/IAppModule";
-import IConfig from "./IConfig";
-import IService from "./service/IService";
-import {AppManager} from "./AppManager";
-import IComponent from "./component/IComponent";
-import ModuleDTO from "./dto/ModuleDTO";
-import ComponentDTO from "./dto/ComponentDTO";
-import ServiceDTO from "./dto/ServiceDTO";
+import { Router } from './router/Router';
+import IAppModule from './module/IAppModule';
+import IConfig from './IConfig';
+import IService from './service/IService';
+import { AppManager } from './AppManager';
+import IComponent from './component/IComponent';
+import ModuleDTO from './dto/ModuleDTO';
+import ComponentDTO from './dto/ComponentDTO';
+import ServiceDTO from './dto/ServiceDTO';
 
 /**
  * 어플리케이션 컨텍스트이다.
@@ -35,7 +35,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      */
     private router: Router;
 
-    public constructor() {
+    public constructor () {
         this.iocContainer = new Container();
     }
 
@@ -45,9 +45,9 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {AppManager} manager
      * @param {string | symbol} componentName
      */
-    public load(manager: AppManager, componentName: string | symbol) {
-        if(!(manager instanceof AppManager)) {
-            throw new Error("It is only initialized by only AppManager");
+    public load (manager: AppManager, componentName: string | symbol) {
+        if (!(manager instanceof AppManager)) {
+            throw new Error('It is only initialized by only AppManager');
         }
         this.iocContainer.get<IAppModule>(this.baseModuleName).load(componentName);
     }
@@ -58,9 +58,9 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {AppManager} manager
      * @param {IConfig} config
      */
-    public setConfig(manager: AppManager, config: IConfig): void {
-        if(!(manager instanceof AppManager)) {
-            throw new Error("It is only initialized config by only AppManager");
+    public setConfig (manager: AppManager, config: IConfig): void {
+        if (!(manager instanceof AppManager)) {
+            throw new Error('It is only initialized config by only AppManager');
         }
         this.config = config;
     }
@@ -70,7 +70,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      *
      * @returns {IConfig}
      */
-    public getConfig(): IConfig {
+    public getConfig (): IConfig {
         return this.config;
     }
 
@@ -80,9 +80,9 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {AppManager} manager
      * @param {Map<string | symbol, IAppModule>} modules
      */
-    public setModules(manager: AppManager, modules: Array<ModuleDTO>): void {
-        if(!(manager instanceof AppManager)) {
-            throw new Error("It is only initialized Modules by only AppManager");
+    public setModules (manager: AppManager, modules: Array<ModuleDTO>): void {
+        if (!(manager instanceof AppManager)) {
+            throw new Error('It is only initialized Modules by only AppManager');
         }
 
         modules.reduce((iocContainer, module: ModuleDTO) => {
@@ -99,12 +99,12 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      *
      * @param {string | symbol} moduleName
      */
-    public setBaseModuleName(manager: AppManager, moduleName: string | symbol) {
-        if(!(manager instanceof AppManager)) {
-            throw new Error("It is only initialized baseModuleName by only AppManager");
+    public setBaseModuleName (manager: AppManager, moduleName: string | symbol) {
+        if (!(manager instanceof AppManager)) {
+            throw new Error('It is only initialized baseModuleName by only AppManager');
         }
 
-       this.baseModuleName = moduleName;
+        this.baseModuleName = moduleName;
     }
 
     /**
@@ -113,9 +113,9 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {AppManager} manager
      * @param {Router} router
      */
-    public setRouter(manager: AppManager, router: Router): void {
-        if(!(manager instanceof AppManager)) {
-            throw new Error("It is only initialized Router by only AppManager");
+    public setRouter (manager: AppManager, router: Router): void {
+        if (!(manager instanceof AppManager)) {
+            throw new Error('It is only initialized Router by only AppManager');
         }
         this.router = router;
     }
@@ -125,7 +125,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      *
      * @returns {Router}
      */
-    public getRouter(): Router {
+    public getRouter (): Router {
         return this.router;
     }
 
@@ -135,7 +135,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {IComponent} component
      * @param {string | symbol} moduleName
      */
-    registerComponent(component: ComponentDTO, moduleName?: string | symbol): void {
+    registerComponent (component: ComponentDTO, moduleName?: string | symbol): void {
         this.iocContainer.bind<IComponent>(component.name).to(component.component);
     }
 
@@ -146,7 +146,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {string | symbol} moduleName
      * @returns {IComponent}
      */
-    provideComponent(componentName: string | symbol, moduleName?: string | symbol): IComponent {
+    provideComponent (componentName: string | symbol, moduleName?: string | symbol): IComponent {
         return this.iocContainer.get<IComponent>(componentName);
     }
 
@@ -156,7 +156,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {ServiceDTO} servie
      * @param {string | symbol} moduleName
      */
-    registerService(service: ServiceDTO, moduleName?: string | symbol): void {
+    registerService (service: ServiceDTO, moduleName?: string | symbol): void {
         this.iocContainer.bind<IService>(service.name).to(service.service);
     }
 
@@ -167,10 +167,10 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      * @param {string | symbol} moduleName
      * @returns {IService}
      */
-    provideService(serviceName: string | symbol, moduleName?: string | symbol): IService {
+    provideService (serviceName: string | symbol, moduleName?: string | symbol): IService {
         return this.iocContainer.get<IService>(serviceName);
     }
 }
 
-//use to singleton
+// use to singleton
 export const applicationContext = new ApplicationContext();

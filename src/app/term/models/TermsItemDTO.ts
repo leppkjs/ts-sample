@@ -1,5 +1,5 @@
 class TermsItemDTO {
-    constructor(
+    constructor (
         public id: string,
         public name: string,
         public contents: string

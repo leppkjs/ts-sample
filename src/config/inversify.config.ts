@@ -1,5 +1,5 @@
-import { Container } from "inversify";
-import { IOC_IDS } from "./ioc-ids";
+import { Container } from 'inversify';
+import { IOC_IDS } from './ioc-ids';
 
 /**
  * IOC컨테어너를 통해서 의존 클래스들을 등록한다.

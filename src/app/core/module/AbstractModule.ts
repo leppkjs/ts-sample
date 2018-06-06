@@ -1,5 +1,5 @@
-import IAppModule from "./IAppModule";
-import {injectable} from "inversify";
+import IAppModule from './IAppModule';
+import { injectable } from 'inversify';
 
 /**
  * 모듈의 추상클래스이다.
@@ -9,7 +9,7 @@ abstract class AbstractModule implements IAppModule {
     /**
      * 기본 생성자이다.
      */
-    constructor() {
+    constructor () {
     }
 
     /**
@@ -17,14 +17,14 @@ abstract class AbstractModule implements IAppModule {
      *
      * @param {string} bootstrapComponent
      */
-    abstract load(bootstrapComponent: string): void;
+    abstract load (bootstrapComponent: string): void;
 
     /**
      *
      * @param {string} selector
      * @param {string} templateUrl
      */
-    abstract renderer(selector: string, templateUrl: string): void;
+    abstract renderer (selector: string, templateUrl: string): void;
 }
 
 export default AbstractModule;
