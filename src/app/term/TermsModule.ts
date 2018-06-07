@@ -14,26 +14,32 @@ class TermsModule extends AbstractModule {
      */
     constructor () {
         super();
-        console.log('load TermsModule');
+        if(console && console.log) {
+            console.log('load TermsModule');
+        }
     }
 
     /**
      * 부트스트랩 컴포넌트를 적재한다.
+     *
+     * @param {string | symbol} bootstrapComponent
      */
     public load (bootstrapComponent: string | symbol): void {
         applicationContext.provideComponent(bootstrapComponent).rendering(this);
     }
 
     /**
+     * 화면에 렌더링 한다.
      *
      * @param {string} selector
-     * @param {string} template
+     * @param {string} templateUrl
      */
     public renderer (selector: string, templateUrl: string): void {
         this.rendererToTemplateUrl(selector, `/template/${templateUrl}`);
     }
 
     /**
+     * 템플릿URL을 로드해서 렌더링 한다.
      *
      * @param {string} selector
      * @param {string} templateUrl

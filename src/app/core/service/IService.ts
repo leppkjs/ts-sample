@@ -3,4 +3,4 @@
  */
 interface IService { }
 
-export default IService;
+export {IService};

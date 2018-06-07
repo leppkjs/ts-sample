@@ -5,8 +5,8 @@ interface IServiceFactory<CD, C, SD, S> {
     /**
      * 컴포넌트를 등록한다.
      *
-     * @param {C} component
-     * @param {string | symbol} moduleName
+     * @param {CD} component
+     * @param {string | symbol} moduleName 모듈명
      */
     registerComponent (component: CD, moduleName: string | symbol): void;
 
@@ -21,8 +21,8 @@ interface IServiceFactory<CD, C, SD, S> {
     /**
      * 서비스를 등록한다.
      *
-     * @param {S} servie
-     * @param {string | symbol} moduleName
+     * @param {SD} servie
+     * @param {string | symbol} moduleName 모듈명
      */
     registerService (servie: SD, moduleName: string | symbol): void;
 

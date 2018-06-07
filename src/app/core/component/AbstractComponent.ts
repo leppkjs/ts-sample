@@ -11,6 +11,7 @@ abstract class AbstractComponent implements IComponent {
      * 렌더링 대상 셀렉터
      */
     protected selector: string;
+
     /**
      * 템플릿 주소
      */

@@ -13,13 +13,14 @@ abstract class AbstractModule implements IAppModule {
     }
 
     /**
-     * 모듈을 렌더링 한다.
+     * 모듈을 적재 한다.
      *
      * @param {string} bootstrapComponent
      */
     abstract load (bootstrapComponent: string): void;
 
     /**
+     * 화면에 렌더링 한다.
      *
      * @param {string} selector
      * @param {string} templateUrl

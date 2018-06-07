@@ -35,6 +35,9 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
      */
     private router: Router;
 
+    /**
+     * 기본 생성자이다.
+     */
     public constructor () {
         this.iocContainer = new Container();
     }
@@ -97,6 +100,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
     /**
      * 기본모듈명을 설정한다.
      *
+     * @param {AppManager} manager
      * @param {string | symbol} moduleName
      */
     public setBaseModuleName (manager: AppManager, moduleName: string | symbol) {
@@ -132,7 +136,7 @@ class ApplicationContext implements IServiceFactory<ComponentDTO, IComponent, Se
     /**
      * 컴포넌트를 등록한다.
      *
-     * @param {IComponent} component
+     * @param {ComponentDTO} component
      * @param {string | symbol} moduleName
      */
     registerComponent (component: ComponentDTO, moduleName?: string | symbol): void {

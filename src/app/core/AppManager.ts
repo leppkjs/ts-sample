@@ -19,8 +19,9 @@ class AppManager {
      * @param {string} baseMouleName
      */
     constructor (config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol) {
-        console.log('load AppManager');
-
+        if(console && console.log) {
+            console.log('load AppManager');
+        }
         this.initializeContext(config, modules, baseMouleName);
         this.initializeRouter(applicationContext.getRouter());
     }
@@ -41,7 +42,7 @@ class AppManager {
      * 컨텍스트를 초기화 한다.
      *
      * @param {IConfig} config
-     * @param {Array<IAppModule>} modules
+     * @param {Array<ModuleDTO>} modules
      * @param {string | symbol} baseMouleName
      */
     private initializeContext (config: IConfig, modules: Array<ModuleDTO>, baseMouleName: string | symbol): void {
@@ -53,6 +54,7 @@ class AppManager {
 
     /**
      * 모듈목록을 키/밸류 맵 목록으로 변환한다.
+     *
      * @param {Array<ModuleDTO>} modules
      * @returns {Map<string | symbol, Class>}
      */
@@ -65,6 +67,7 @@ class AppManager {
 
     /**
      * 라우터를 초기화 한다.
+     *
      * TODO 외부 파일로 불리할것.
      */
     private initializeRouter (router: Router) {

@@ -23,11 +23,18 @@ class TermsComponent extends AbstractComponent {
      */
     private stoveHader: TermsHeader;
 
+    /**
+     * 기본 생성자이다.
+     * @param {TermsService} termsService 이용약관 서비스
+     */
     constructor (@inject(Symbol.for('termsService'))public termsService: TermsService) {
         super();
         console.log('load TermsComponent...');
     }
 
+    /**
+     * 초기화
+     */
     init () {
         this.createStoveHeader('#terms-header').render();
         this.termsService.test('ttttt');

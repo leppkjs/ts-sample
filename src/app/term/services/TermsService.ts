@@ -3,6 +3,9 @@ import { injectable } from 'inversify';
 import TermsDTO from '../models/TermsDTO';
 import TermsItemDTO from '../models/TermsItemDTO';
 
+/**
+ * 테스트용
+ */
 @injectable()
 class TermsService extends AbstractService {
     constructor () {

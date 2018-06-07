@@ -3,11 +3,12 @@
  */
 interface IAppModule {
     /**
-     * 모듈을 렌더링 한다.
+     * 모듈을 적재 한다.
      */
     load(bootstrapComponent: string | symbol): void;
 
     /**
+     * 화면에 렌더링 한다.
      *
      * @param {string} selector
      * @param {string} templateUrl
